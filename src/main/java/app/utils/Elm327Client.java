@@ -105,44 +105,29 @@ public class Elm327Client {
 
     public void startCommunicationConsole() throws IOException {
 
-        OutputStream out = serialPort.getOutputStream();
-        InputStream in = serialPort.getInputStream();
         Scanner scanner = new Scanner(System.in);
 
-        String command = "";
         while (true) {
 
             System.out.print(">> ");
-            command = scanner.nextLine();
+
+            String command = scanner.nextLine();
 
             if (command.equals("exit")) {
                 break;
             }
 
-            if (Objects.equals(command, "help")){
+            if (command.equals("help")) {
                 showElm327Commands();
                 continue;
             }
 
-            out.write((command + "\r").getBytes(StandardCharsets.US_ASCII)); // r pois e especifico pro 327. ATI -> 41 = A 54 = T 49 = I 0D = \r
-            out.flush(); //Mande agora o que esta no buffer
+            String response = sendCommand(command);
 
-            byte[] buffer = new byte[1024];
-            int bytesRead = in.read(buffer);
-
-            String response = new String(
-                buffer,
-                0,
-                bytesRead,
-                StandardCharsets.US_ASCII
-            );
             System.out.println("<< " + response);
         }
-        scanner.close();
-        out.close();
-        in.close();
-        SerialPortManager.closeCommPort(serialPort);
 
+        scanner.close();
     }
 
 }
