@@ -29,15 +29,29 @@ public class Elm327Client {
         out.write((command + "\r").getBytes(StandardCharsets.US_ASCII));
         out.flush();
 
-        byte[] buffer = new byte[1024];
-        int bytesRead = in.read(buffer);
 
-        return new String(
-            buffer,
-            0,
-            bytesRead,
-            StandardCharsets.US_ASCII
-        );
+        StringBuilder builder = new StringBuilder();
+
+        long timeout = System.currentTimeMillis() + 3000;
+
+        while (System.currentTimeMillis() < timeout) {
+
+            if (in.available() > 0) {
+
+                int data = in.read();
+
+                if (data == '>') {
+                    break;
+                }
+
+                builder.append((char) data);
+            }
+
+
+        }
+
+        return builder.toString().trim();
+
     }
 
 

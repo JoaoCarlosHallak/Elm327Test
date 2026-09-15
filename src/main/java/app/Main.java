@@ -19,7 +19,7 @@ public class Main {
             System.out.println(serialPort);
         }
 
-        SerialPort port = SerialPortManager.getCommPort("COM1"); //Mudar futuro
+        SerialPort port = SerialPortManager.getCommPort("COM3"); //Mudar futuro
         SerialPortManager.openAndSetCommPort(port, 38400, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
         Elm327Client elm327Client = new Elm327Client(port);
         elm327Client.startCommunicationConsole();
