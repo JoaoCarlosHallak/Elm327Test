@@ -12,7 +12,6 @@ public class Main {
     static void main() throws IOException {
 
 
-        SerialPort[] serialPorts = SerialPortManager.getCommPorts();
 
 
         SerialPort port = SerialPortManager.getCommPort("COM4"); //Mudar futuro
